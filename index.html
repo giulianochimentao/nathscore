@@ -427,21 +427,33 @@ async function fetchScores() {
   const spinEl = document.getElementById('spinIcon');
   if (spinEl) spinEl.classList.add('spinning');
 
-  try {
-    const res = await fetch('https://worldcup26.ir/get/games');
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
-    const games = Array.isArray(data) ? data : (data.games || data.matches || data.data || []);
-    let matched = 0;
+  // A API worldcup26.ir não envia headers CORS, então usamos allorigins como proxy
+  const TARGET = 'https://worldcup26.ir/get/games';
+  const PROXY  = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(TARGET);
 
+  try {
+    const res = await fetch(PROXY);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+
+    let games;
+    try {
+      const data = await res.json();
+      games = Array.isArray(data) ? data : (data.games || data.matches || data.data || []);
+    } catch (parseErr) {
+      throw new Error('Resposta inválida da API');
+    }
+
+    if (!games || games.length === 0) throw new Error('Nenhum jogo recebido');
+
+    let matched = 0;
     games.forEach(g => {
       const ht = normalizeTeam(g.home_team || g.home || g.homeTeam || (g.teams && g.teams.home && g.teams.home.name));
       const at = normalizeTeam(g.away_team || g.away || g.awayTeam || (g.teams && g.teams.away && g.teams.away.name));
       if (!ht || !at) return;
 
-      const phase = g.phase || g.status || g.state || 'PRE';
-      const isFinished = ['FT','FINISHED','finished','FT_PEN','AET','COMPLETED','complete','ft'].includes(phase);
-      const isLive = ['1H','2H','HT','ET1','ET2','PEN','LIVE','live','IN_PROGRESS'].includes(phase);
+      const phase = (g.phase || g.status || g.state || 'PRE').toUpperCase();
+      const isFinished = ['FT','FINISHED','FT_PEN','AET','COMPLETED','COMPLETE'].includes(phase);
+      const isLive = ['1H','2H','HT','ET1','ET2','PEN','LIVE','IN_PROGRESS'].includes(phase);
       const hasScore = isFinished || isLive;
 
       let oh = null, oa = null;
@@ -467,10 +479,11 @@ async function fetchScores() {
 
     apiOk = true;
     const now = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-    setStatus('ok', `ok · ${now}`);
+    setStatus('ok', `ok · ${matched} jogos · ${now}`);
   } catch (e) {
     apiOk = false;
-    setStatus('err', 'offline');
+    console.error('Erro ao buscar dados:', e.message);
+    setStatus('err', 'offline — modo manual');
   }
 
   isFetching = false;
