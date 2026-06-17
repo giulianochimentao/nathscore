@@ -8,33 +8,39 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f4f1eb;--surface:#ffffff;--surface2:#f0ede5;--border:#e2ddd4;--border2:#c9c3b8;
+  --bg:#f4f1eb;--surface:#fff;--surface2:#f0ede5;--border:#e2ddd4;--border2:#c9c3b8;
   --text:#1a1612;--text2:#6b6358;--text3:#a09890;
-  --green:#16a34a;--green-bg:#f0fdf4;--green-light:#dcfce7;
-  --red:#dc2626;--red-bg:#fef2f2;--red-light:#fee2e2;
-  --amber:#b45309;--amber-bg:#fffbeb;--amber-light:#fef3c7;
-  --blue:#1d4ed8;--blue-bg:#eff6ff;--blue-light:#dbeafe;
-  --gold:#b45309;
+  --green:#16a34a;--green-light:#dcfce7;
+  --red:#dc2626;--red-light:#fee2e2;
+  --amber:#b45309;--amber-light:#fef3c7;
+  --blue:#1d4ed8;
   --radius:10px;--radius-sm:6px;--radius-xs:4px;
 }
-@media(prefers-color-scheme:dark){
-  :root{--bg:#0f0d0a;--surface:#1c1a16;--surface2:#272420;--border:#332f28;--border2:#4a4540;
+@media(prefers-color-scheme:dark){:root{
+  --bg:#0f0d0a;--surface:#1c1a16;--surface2:#272420;--border:#332f28;--border2:#4a4540;
   --text:#f5f0e8;--text2:#9a9080;--text3:#5a5248;
-  --green-bg:#052e16;--green-light:#14532d;--red-bg:#450a0a;--red-light:#7f1d1d;
-  --amber-bg:#422006;--amber-light:#713f12;--blue-bg:#1e3a5f;--blue-light:#1e3a5f;}
-}
+  --green-light:#14532d;--red-light:#7f1d1d;--amber-light:#713f12;
+}}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 .app{max-width:540px;margin:0 auto;background:var(--surface);min-height:100vh;border-left:1px solid var(--border);border-right:1px solid var(--border)}
 
+/* SETUP BANNER */
+.setup-banner{background:#1e3a5f;color:#fff;padding:14px 16px;font-size:12px;line-height:1.7}
+.setup-banner strong{color:#93c5fd;display:block;margin-bottom:5px;font-size:13px}
+.setup-banner code{background:rgba(255,255,255,.15);padding:1px 5px;border-radius:3px;font-family:monospace;font-size:11px}
+.setup-banner a{color:#93c5fd;text-decoration:underline}
+.setup-close{float:right;cursor:pointer;font-size:18px;line-height:1;opacity:.7;margin-left:8px}
+.setup-close:hover{opacity:1}
+
 /* HEADER */
-.hdr{padding:1.1rem 1.25rem .9rem;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--surface);z-index:20}
+.hdr{padding:1rem 1.25rem .85rem;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--surface);z-index:20}
 .logo{width:38px;height:38px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.app-name{font-size:18px;font-weight:700;color:var(--text)}
+.app-name{font-size:18px;font-weight:700}
 .app-sub{font-size:11px;color:var(--text2);margin-top:1px}
-.sync-dot{margin-left:auto;display:flex;align-items:center;gap:4px;font-size:10px;color:var(--text3);flex-shrink:0}
-.dot{width:6px;height:6px;border-radius:50%;background:var(--text3)}
-.dot.ok{background:var(--green)}.dot.err{background:var(--red)}.dot.spin{background:var(--amber);animation:pulse 1s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.sync-dot{margin-left:auto;display:flex;align-items:center;gap:4px;font-size:10px;color:var(--text3);flex-shrink:0;cursor:pointer}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--text3);flex-shrink:0}
+.dot.ok{background:var(--green)}.dot.err{background:var(--red)}.dot.spin{background:var(--amber);animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 
 /* STATS */
 .stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:.85rem 1.25rem;border-bottom:1px solid var(--border)}
@@ -45,20 +51,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 /* TODAY BANNER */
 .today-banner{margin:.85rem 1.25rem .4rem;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
-.today-header{background:var(--green);padding:8px 14px;display:flex;align-items:center;gap:8px}
+.today-header{background:var(--green);padding:8px 14px}
 .today-header span{font-size:12px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.06em}
-.today-match{padding:9px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;background:var(--surface)}
+.today-match{padding:9px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;background:var(--surface)}
 .today-match:last-child{border-bottom:none}
-.today-time{font-size:11px;font-weight:600;color:var(--green);min-width:36px}
-.today-teams{font-size:13px;font-weight:500;color:var(--text);flex:1}
-.today-score{font-size:13px;font-weight:700;color:var(--text)}
-.today-live{font-size:10px;padding:2px 6px;border-radius:10px;background:var(--red);color:#fff;font-weight:700;animation:pulse .8s infinite}
+.today-time{font-size:11px;font-weight:700;color:var(--green);min-width:42px}
+.today-teams{font-size:13px;font-weight:500;flex:1}
+.today-score{font-size:13px;font-weight:700}
 
 /* TABS */
 .tabs-wrap{border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
 .tabs-wrap::-webkit-scrollbar{display:none}
-.tabs{display:flex;padding:0 1rem;white-space:nowrap}
-.tab{padding:8px 10px;font-size:11px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--text2);border-bottom:2px solid transparent;letter-spacing:.02em;transition:color .15s,border-color .15s}
+.tabs{display:flex;padding:0 .75rem;white-space:nowrap}
+.tab{padding:8px 10px;font-size:11px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--text2);border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
 .tab.active{color:var(--green);border-bottom-color:var(--green)}
 .tab:hover{color:var(--text)}
 
@@ -75,20 +80,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .match-top{display:flex;align-items:center;gap:8px}
 .team{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:44px;max-width:52px}
 .flag{font-size:20px;line-height:1}
-.tcode{font-size:9px;font-weight:700;color:var(--text2);text-align:center;text-transform:uppercase}
+.tcode{font-size:9px;font-weight:700;color:var(--text2);text-align:center}
 .score-block{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px}
 .pred-row{display:flex;align-items:center;gap:6px}
-.pscore{font-size:19px;font-weight:700;color:var(--text)}
+.pscore{font-size:19px;font-weight:700}
 .sep{font-size:11px;color:var(--text3)}
 .pred-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.04em}
 .badge{font-size:10px;padding:2px 8px;border-radius:12px;font-weight:700;display:inline-block;margin-top:1px}
 .badge.cravou{background:var(--green-light);color:var(--green)}
 .badge.parcial{background:var(--amber-light);color:var(--amber)}
 .badge.errou{background:var(--red-light);color:var(--red)}
-.badge.live{background:var(--red);color:#fff;animation:pulse .8s infinite}
 .badge.pendente{background:var(--surface2);color:var(--text3)}
 .official-row{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:3px}
 .official-label{font-size:10px;color:var(--text3)}
+
+/* INPUT */
 .input-row{display:flex;align-items:center;gap:7px;margin-top:9px;border-top:1px solid var(--border);padding-top:9px}
 .input-row label{font-size:10px;color:var(--text2);flex:1}
 .sinputs{display:flex;align-items:center;gap:4px}
@@ -102,45 +108,54 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .bonus-wrap{padding:.85rem 1.25rem 2rem;display:flex;flex-direction:column;gap:10px}
 .bonus-card{border:1px solid var(--border);border-radius:var(--radius);padding:13px 15px;background:var(--surface)}
 .bonus-title{font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px}
-.bonus-item{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)}
+.bonus-item{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);gap:8px}
 .bonus-item:last-child{border-bottom:none;padding-bottom:0}
-.bl{font-size:13px;color:var(--text2)}
-.bv{font-size:13px;font-weight:700;color:var(--text)}
-.bonus-result{display:flex;align-items:center;gap:8px}
-.bonus-badge{font-size:10px;padding:2px 8px;border-radius:12px;font-weight:700;cursor:pointer;border:1px solid var(--border2);background:var(--surface2);color:var(--text2)}
+.bl{font-size:13px;color:var(--text2);flex:1}
+.bonus-btns{display:flex;gap:5px;flex-shrink:0}
+.bonus-badge{font-size:10px;padding:3px 10px;border-radius:12px;font-weight:700;cursor:pointer;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);transition:all .15s;white-space:nowrap}
 .bonus-badge.hit{background:var(--green-light);color:var(--green);border-color:var(--green)}
 .bonus-badge.miss{background:var(--red-light);color:var(--red);border-color:var(--red)}
-
-/* PODIUM */
 .podium-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
 .podium-item{text-align:center;padding:10px 6px;background:var(--surface2);border-radius:var(--radius-sm)}
 .podium-place{font-size:10px;color:var(--text2);margin-bottom:4px}
 .podium-flag{font-size:18px;line-height:1.4}
-.podium-team{font-size:12px;font-weight:700;color:var(--text)}
-.podium-result{margin-top:5px}
+.podium-team{font-size:12px;font-weight:700}
+.podium-result{margin-top:5px;display:flex;gap:4px;justify-content:center}
 
-/* KNOCKOUT */
+/* MATA-MATA */
 .ko-wrap{padding:.85rem 1.25rem 2rem}
 .ko-phase{margin-bottom:16px}
-.ko-phase-title{font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;padding:0 0 5px;border-bottom:1px solid var(--border)}
+.ko-phase-title{font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--border)}
 .ko-card{border:1px solid var(--border);border-radius:var(--radius);padding:9px 12px;background:var(--surface);margin-bottom:7px}
 .ko-match{display:flex;align-items:center;gap:6px}
 .ko-team{display:flex;align-items:center;gap:5px;flex:1}
 .ko-flag{font-size:16px}
-.ko-name{font-size:12px;font-weight:600;color:var(--text)}
+.ko-name{font-size:12px;font-weight:600}
 .ko-tbd{font-size:11px;color:var(--text3);font-style:italic}
-.ko-vs{font-size:10px;color:var(--text3);flex-shrink:0}
-.ko-score{font-size:13px;font-weight:700;color:var(--text);text-align:center;min-width:40px}
-.ko-input-row{display:flex;align-items:center;gap:6px;margin-top:7px;border-top:1px solid var(--border);padding-top:7px}
-.ko-input-row label{font-size:10px;color:var(--text2);flex:1}
+.ko-score{font-size:13px;font-weight:700;text-align:center;min-width:40px;color:var(--text)}
+.ko-input-row{display:flex;align-items:center;gap:5px;margin-top:7px;border-top:1px solid var(--border);padding-top:7px;flex-wrap:wrap}
+.ki{width:52px;height:24px;border:1px solid var(--border2);border-radius:4px;text-align:center;font-size:11px;font-weight:600;background:var(--surface2);color:var(--text);padding:0 4px}
+.ki.score{width:28px}
+
+/* MISC */
 .loading-state{padding:3rem 1.25rem;text-align:center;color:var(--text2);font-size:13px}
 .loader{width:24px;height:24px;margin:0 auto 12px;border:2px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.footer{padding:1.5rem 1.25rem;text-align:center;font-size:10px;color:var(--text3);border-top:1px solid var(--border)}
+.footer{padding:1.25rem;text-align:center;font-size:10px;color:var(--text3);border-top:1px solid var(--border)}
 </style>
 </head>
 <body>
 <div class="app">
+
+<div class="setup-banner" id="setupBanner">
+  <span class="setup-close" onclick="document.getElementById('setupBanner').style.display='none'">×</span>
+  <strong>⚙️ Configure o banco de dados compartilhado (Firebase)</strong>
+  1. Acesse <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a> → Criar projeto → nome: <code>nathscore</code><br>
+  2. Clique em <strong>Realtime Database</strong> → Criar banco de dados → escolha <strong>modo de teste</strong><br>
+  3. Copie a URL (ex: <code>https://nathscore-xxxx-default-rtdb.firebaseio.com</code>)<br>
+  4. Abra este HTML, encontre <code>FIREBASE_URL</code> e cole a sua URL no lugar<br>
+  5. Suba no GitHub de novo — todos verão e salvarão a mesma base! 🎉
+</div>
 
 <div class="hdr">
   <div class="logo">🏆</div>
@@ -148,9 +163,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="app-name">Nathscore</div>
     <div class="app-sub">Palpites da Nath — Copa 2026</div>
   </div>
-  <div class="sync-dot">
+  <div class="sync-dot" onclick="loadDB()" title="Clique para sincronizar">
     <span class="dot" id="syncDot"></span>
-    <span id="syncTxt"></span>
+    <span id="syncTxt">...</span>
   </div>
 </div>
 
@@ -191,17 +206,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 </div>
 
 <script>
-// ── FLAGS ───────────────────────────────────────────────────────────
-const F={MEX:'🇲🇽',RSA:'🇿🇦',KOR:'🇰🇷',CZE:'🇨🇿',BRA:'🇧🇷',MAR:'🇲🇦',HAI:'🇭🇹',SCO:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+// ═══════════════════════════════════════════════════════════════
+// ⚙️  CONFIGURAÇÃO — Cole aqui a URL do seu Firebase
+// ═══════════════════════════════════════════════════════════════
+const FIREBASE_URL = 'https://SEU-BANCO-AQUI-default-rtdb.firebaseio.com';
+// ═══════════════════════════════════════════════════════════════
+
+const DB_PATH = '/nathscore.json';
+
+// ── FLAGS ───────────────────────────────────────────────────────
+const F={
+  MEX:'🇲🇽',RSA:'🇿🇦',KOR:'🇰🇷',CZE:'🇨🇿',BRA:'🇧🇷',MAR:'🇲🇦',HAI:'🇭🇹',SCO:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',
   USA:'🇺🇸',PAR:'🇵🇾',AUS:'🇦🇺',TUR:'🇹🇷',GER:'🇩🇪',CUW:'🇨🇼',CIV:'🇨🇮',ECU:'🇪🇨',
   CAN:'🇨🇦',BIH:'🇧🇦',QAT:'🇶🇦',SUI:'🇨🇭',BEL:'🇧🇪',EGY:'🇪🇬',IRN:'🇮🇷',NZL:'🇳🇿',
   ESP:'🇪🇸',CPV:'🇨🇻',KSA:'🇸🇦',URU:'🇺🇾',FRA:'🇫🇷',SEN:'🇸🇳',IRQ:'🇮🇶',NOR:'🇳🇴',
   NED:'🇳🇱',JPN:'🇯🇵',SWE:'🇸🇪',TUN:'🇹🇳',ARG:'🇦🇷',ALG:'🇩🇿',AUT:'🇦🇹',JOR:'🇯🇴',
-  POR:'🇵🇹',COD:'🇨🇩',UZB:'🇺🇿',COL:'🇨🇴',ENG:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',CRO:'🇭🇷',GHA:'🇬🇭',PAN:'🇵🇦'};
+  POR:'🇵🇹',COD:'🇨🇩',UZB:'🇺🇿',COL:'🇨🇴',ENG:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',CRO:'🇭🇷',GHA:'🇬🇭',PAN:'🇵🇦'
+};
 
-// ── PALPITES DA NATH ────────────────────────────────────────────────
+// ── PALPITES DA NATH ────────────────────────────────────────────
+// A1: Nath apostou MEX 2×1 RSA (resultado foi 2×0 → parcial)
 const NATH={
-  A:[{id:'A1',h:'MEX',a:'RSA',ph:2,pa:0},{id:'A2',h:'KOR',a:'CZE',ph:1,pa:1},{id:'A3',h:'CZE',a:'RSA',ph:1,pa:2},{id:'A4',h:'MEX',a:'KOR',ph:2,pa:1},{id:'A5',h:'CZE',a:'MEX',ph:0,pa:2},{id:'A6',h:'RSA',a:'KOR',ph:0,pa:1}],
+  A:[{id:'A1',h:'MEX',a:'RSA',ph:2,pa:1},{id:'A2',h:'KOR',a:'CZE',ph:1,pa:1},{id:'A3',h:'CZE',a:'RSA',ph:1,pa:2},{id:'A4',h:'MEX',a:'KOR',ph:2,pa:1},{id:'A5',h:'CZE',a:'MEX',ph:0,pa:2},{id:'A6',h:'RSA',a:'KOR',ph:0,pa:1}],
   B:[{id:'B1',h:'CAN',a:'BIH',ph:2,pa:1},{id:'B2',h:'QAT',a:'SUI',ph:0,pa:2},{id:'B3',h:'SUI',a:'BIH',ph:2,pa:1},{id:'B4',h:'CAN',a:'QAT',ph:2,pa:0},{id:'B5',h:'SUI',a:'CAN',ph:2,pa:0},{id:'B6',h:'BIH',a:'QAT',ph:1,pa:0}],
   C:[{id:'C1',h:'BRA',a:'MAR',ph:3,pa:1},{id:'C2',h:'HAI',a:'SCO',ph:0,pa:2},{id:'C3',h:'SCO',a:'MAR',ph:1,pa:1},{id:'C4',h:'BRA',a:'HAI',ph:4,pa:0},{id:'C5',h:'MAR',a:'HAI',ph:3,pa:0},{id:'C6',h:'SCO',a:'BRA',ph:1,pa:2}],
   D:[{id:'D1',h:'USA',a:'PAR',ph:2,pa:1},{id:'D2',h:'AUS',a:'TUR',ph:1,pa:1},{id:'D3',h:'USA',a:'AUS',ph:2,pa:0},{id:'D4',h:'TUR',a:'PAR',ph:1,pa:2},{id:'D5',h:'PAR',a:'AUS',ph:2,pa:1},{id:'D6',h:'TUR',a:'USA',ph:1,pa:0}],
@@ -215,137 +241,192 @@ const NATH={
   L:[{id:'L1',h:'ENG',a:'CRO',ph:1,pa:1},{id:'L2',h:'GHA',a:'PAN',ph:2,pa:1},{id:'L3',h:'ENG',a:'GHA',ph:2,pa:1},{id:'L4',h:'PAN',a:'CRO',ph:0,pa:2},{id:'L5',h:'CRO',a:'GHA',ph:1,pa:1},{id:'L6',h:'PAN',a:'ENG',ph:0,pa:3}]
 };
 
-// ── RESULTADOS OFICIAIS JÁ CONHECIDOS (hardcoded até 16/06) ─────────
-// Rodada 1 completa + Rodada 2 parcial (jogos encerrados até agora)
+// ── RESULTADOS CONHECIDOS (hardcoded — atualizados até 17/06/2026) ──
+// Rodada 1 completa + Rodada 2: jogos de 11–16/06 encerrados
 const KNOWN={
-  // Rodada 1 — todos encerrados
-  A1:{h:2,a:0},   // MEX 2-0 RSA ✓ Nath cravou!
-  A2:{h:2,a:1},   // KOR 2-1 CZE (Nath: 1x1 — parcial)
-  B1:{h:1,a:1},   // CAN 1-1 BIH (Nath: 2x1 — errou)
-  B2:{h:1,a:1},   // QAT 1-1 SUI (Nath: 0x2 — errou)
-  C1:{h:1,a:1},   // BRA 1-1 MAR (Nath: 3x1 — errou)
-  C2:{h:0,a:1},   // HAI 0-1 SCO (Nath: 0x2 — parcial)
-  D1:{h:4,a:1},   // USA 4-1 PAR (Nath: 2x1 — parcial)
-  D2:{h:2,a:0},   // AUS 2-0 TUR (Nath: 1x1 — errou)
-  // Rodada 2 — encerrados até 16/06 tarde
-  E1:{h:7,a:1},   // GER 7-1 CUW (Nath: 4x0 — parcial)
-  E2:{h:1,a:0},   // CIV 1-0 ECU (Nath: 2x0 — parcial)
-  F1:{h:2,a:2},   // NED 2-2 JPN (Nath: 2x1 — parcial)
-  F2:{h:5,a:1},   // SWE 5-1 TUN (Nath: 1x1 — parcial)
-  G1:{h:1,a:1},   // BEL 1-1 EGY (Nath: 2x1 — errou)
-  G2:{h:2,a:2},   // IRN 2-2 NZL (Nath: 1x0 — errou)
-  H1:{h:0,a:0},   // ESP 0-0 CPV (Nath: 3x0 — errou)
-  H2:{h:1,a:1},   // KSA 1-1 URU (Nath: 0x2 — errou)
+  // — RODADA 1 —
+  A1:{h:2,a:0},  // MEX 2-0 RSA  | Nath: 2×1 → parcial ✓
+  A2:{h:2,a:1},  // KOR 2-1 CZE  | Nath: 1×1 → errou
+  B1:{h:1,a:1},  // CAN 1-1 BIH  | Nath: 2×1 → errou
+  B2:{h:1,a:1},  // QAT 1-1 SUI  | Nath: 0×2 → errou
+  C1:{h:1,a:1},  // BRA 1-1 MAR  | Nath: 3×1 → errou
+  C2:{h:0,a:1},  // HAI 0-1 SCO  | Nath: 0×2 → parcial ✓
+  D1:{h:4,a:1},  // USA 4-1 PAR  | Nath: 2×1 → parcial ✓
+  D2:{h:2,a:0},  // AUS 2-0 TUR  | Nath: 1×1 → errou
+  // — RODADA 2 (jogos de 11-16/06) —
+  E1:{h:7,a:1},  // GER 7-1 CUW  | Nath: 4×0 → parcial ✓
+  E2:{h:1,a:0},  // CIV 1-0 ECU  | Nath: 2×0 → parcial ✓
+  F1:{h:2,a:2},  // NED 2-2 JPN  | Nath: 2×1 → errou
+  F2:{h:5,a:1},  // SWE 5-1 TUN  | Nath: 1×1 → parcial ✓
+  G1:{h:1,a:1},  // BEL 1-1 EGY  | Nath: 2×1 → errou
+  G2:{h:2,a:2},  // IRN 2-2 NZL  | Nath: 1×0 → errou
+  H1:{h:0,a:0},  // ESP 0-0 CPV  | Nath: 3×0 → errou
+  H2:{h:1,a:1},  // KSA 1-1 URU  | Nath: 0×2 → errou
+  I1:{h:2,a:0},  // FRA 2-0 SEN  | Nath: 2×1 → parcial ✓
+  I2:{h:1,a:4},  // IRQ 1-4 NOR  | Nath: 0×2 → parcial ✓
+  // J1 (ARG×ALG), J2 (AUT×JOR), K1 (POR×COD), L1 (ENG×CRO), L2 (GHA×PAN) → 17/06, ainda não jogados
 };
 
-// ── CALENDARIO (horários de Brasília) — 2ª rodada restante e 3ª ────
-// Formato: [id, home, away, data ISO, hora string]
+// ── CALENDÁRIO — horário de Brasília, usando data LOCAL ─────────
+// CRÍTICO: usamos getLocalDateStr() para evitar bug de fuso UTC
 const SCHEDULE=[
-  // Rodada 2 — ainda não jogados (16/06 em diante)
+  // Rodada 2 — jogos de 16 e 17/06
   ['I1','FRA','SEN','2026-06-16','16:00'],
   ['I2','IRQ','NOR','2026-06-16','19:00'],
-  ['J1','ARG','ALG','2026-06-17','13:00'],
-  ['J2','AUT','JOR','2026-06-17','16:00'],
-  ['K1','POR','COD','2026-06-17','19:00'],
-  ['L1','ENG','CRO','2026-06-17','22:00'],
-  ['G3','BEL','IRN','2026-06-19','13:00'],
-  ['H3','ESP','KSA','2026-06-19','16:00'],
-  ['B3','SUI','BIH','2026-06-19','19:00'],
-  ['A3','CZE','RSA','2026-06-19','22:00'],
-  ['C3','SCO','MAR','2026-06-20','13:00'],
-  ['D3','USA','AUS','2026-06-20','16:00'],
-  ['K2','UZB','COL','2026-06-20','19:00'],
-  ['L2','GHA','PAN','2026-06-20','22:00'],
-  ['E3','GER','CIV','2026-06-21','13:00'],
-  ['F3','NED','SWE','2026-06-21','16:00'],
-  ['J3','ARG','AUT','2026-06-21','19:00'],
-  ['I3','FRA','IRQ','2026-06-21','22:00'],
+  ['J1','ARG','ALG','2026-06-16','22:00'],  // ← 22h horário de Brasília (dia 16)
+  ['J2','AUT','JOR','2026-06-17','01:00'],  // ← madrugada do dia 17
+  ['K1','POR','COD','2026-06-17','14:00'],
+  ['L1','ENG','CRO','2026-06-17','17:00'],
+  ['L2','GHA','PAN','2026-06-17','20:00'],
+  // Rodada 2 continuação
+  ['A3','CZE','RSA','2026-06-18','14:00'],
+  ['B3','SUI','BIH','2026-06-18','17:00'],
+  ['G3','BEL','IRN','2026-06-18','20:00'],
+  ['H3','ESP','KSA','2026-06-18','23:00'],
+  ['C3','SCO','MAR','2026-06-19','14:00'],
+  ['D3','USA','AUS','2026-06-19','17:00'],
+  ['E3','GER','CIV','2026-06-19','20:00'],
+  ['F3','NED','SWE','2026-06-19','23:00'],
+  ['K2','UZB','COL','2026-06-20','14:00'],
+  ['I3','FRA','IRQ','2026-06-20','20:00'],
+  ['J3','ARG','AUT','2026-06-20','23:00'],
   // Rodada 3
-  ['A4','MEX','KOR','2026-06-24','17:00'],['A5','CZE','MEX','2026-06-24','17:00'],
-  ['B4','CAN','QAT','2026-06-24','17:00'],['B5','SUI','CAN','2026-06-24','21:00'],
-  ['C4','BRA','HAI','2026-06-24','17:00'],['C5','MAR','HAI','2026-06-25','17:00'],
-  ['D4','TUR','PAR','2026-06-25','17:00'],['D5','PAR','AUS','2026-06-25','21:00'],
-  ['E4','ECU','CUW','2026-06-25','13:00'],['E5','ECU','GER','2026-06-25','21:00'],
-  ['F4','TUN','JPN','2026-06-26','13:00'],['F5','JPN','SWE','2026-06-26','17:00'],
-  ['G4','NZL','EGY','2026-06-26','13:00'],['G5','NZL','BEL','2026-06-26','21:00'],
-  ['H4','URU','CPV','2026-06-26','17:00'],['H5','CPV','KSA','2026-06-26','21:00'],
-  ['I4','NOR','SEN','2026-06-26','13:00'],['I5','SEN','IRQ','2026-06-27','13:00'],
-  ['J4','JOR','ALG','2026-06-27','13:00'],['J5','JOR','ARG','2026-06-27','17:00'],
-  ['K3','POR','UZB','2026-06-27','13:00'],['K4','COL','COD','2026-06-27','17:00'],
-  ['L3','ENG','GHA','2026-06-27','13:00'],['L4','PAN','CRO','2026-06-27','17:00'],
-  ['A6','RSA','KOR','2026-06-28','17:00'],['B6','BIH','QAT','2026-06-28','17:00'],
-  ['C6','SCO','BRA','2026-06-28','17:00'],['D6','TUR','USA','2026-06-28','21:00'],
-  ['E6','CUW','CIV','2026-06-28','13:00'],['F6','TUN','NED','2026-06-28','21:00'],
-  ['G6','EGY','IRN','2026-06-28','13:00'],['H6','URU','ESP','2026-06-28','17:00'],
-  ['I6','NOR','FRA','2026-06-28','13:00'],['J6','ALG','AUT','2026-06-28','21:00'],
-  ['K5','COD','UZB','2026-06-28','17:00'],['K6','COL','POR','2026-06-28','21:00'],
-  ['L5','CRO','GHA','2026-06-28','13:00'],['L6','PAN','ENG','2026-06-28','17:00'],
+  ['B4','CAN','QAT','2026-06-22','14:00'],
+  ['A4','MEX','KOR','2026-06-22','17:00'],
+  ['C4','BRA','HAI','2026-06-22','20:00'],
+  ['D4','TUR','PAR','2026-06-22','23:00'],
+  ['E4','ECU','CUW','2026-06-23','14:00'],
+  ['F4','TUN','JPN','2026-06-23','17:00'],
+  ['G4','NZL','EGY','2026-06-23','20:00'],
+  ['H4','URU','CPV','2026-06-23','23:00'],
+  ['I4','NOR','SEN','2026-06-24','14:00'],
+  ['J4','JOR','ALG','2026-06-24','17:00'],
+  ['K3','POR','UZB','2026-06-24','20:00'],
+  ['L3','ENG','GHA','2026-06-24','23:00'],
+  ['A5','CZE','MEX','2026-06-25','14:00'],
+  ['B5','SUI','CAN','2026-06-25','17:00'],
+  ['C5','MAR','HAI','2026-06-25','20:00'],
+  ['D5','PAR','AUS','2026-06-25','23:00'],
+  ['E5','ECU','GER','2026-06-26','14:00'],
+  ['F5','JPN','SWE','2026-06-26','17:00'],
+  ['G5','NZL','BEL','2026-06-26','20:00'],
+  ['H5','CPV','KSA','2026-06-26','23:00'],
+  ['I5','SEN','IRQ','2026-06-27','14:00'],
+  ['J5','JOR','ARG','2026-06-27','17:00'],
+  ['K4','COL','COD','2026-06-27','20:00'],
+  ['L4','PAN','CRO','2026-06-27','23:00'],
+  ['A6','RSA','KOR','2026-06-28','17:00'],
+  ['B6','BIH','QAT','2026-06-28','17:00'],
+  ['C6','SCO','BRA','2026-06-28','21:00'],
+  ['D6','TUR','USA','2026-06-28','21:00'],
+  ['E6','CUW','CIV','2026-06-29','14:00'],
+  ['F6','TUN','NED','2026-06-29','14:00'],
+  ['G6','EGY','IRN','2026-06-29','17:00'],
+  ['H6','URU','ESP','2026-06-29','17:00'],
+  ['I6','NOR','FRA','2026-06-29','21:00'],
+  ['J6','ALG','AUT','2026-06-29','21:00'],
+  ['K5','COD','UZB','2026-06-30','14:00'],
+  ['K6','COL','POR','2026-06-30','17:00'],
+  ['L5','CRO','GHA','2026-06-30','14:00'],
+  ['L6','PAN','ENG','2026-06-30','17:00'],
 ];
 
-// ── MATA-MATA (estrutura para preenchimento) ──────────────────────
+// ── MATA-MATA ───────────────────────────────────────────────────
 const KO_PHASES=[
   {id:'r32',label:'Round of 32',matches:[
-    {id:'ko1',label:'Jogo 1 R32'},{id:'ko2',label:'Jogo 2 R32'},{id:'ko3',label:'Jogo 3 R32'},{id:'ko4',label:'Jogo 4 R32'},
-    {id:'ko5',label:'Jogo 5 R32'},{id:'ko6',label:'Jogo 6 R32'},{id:'ko7',label:'Jogo 7 R32'},{id:'ko8',label:'Jogo 8 R32'},
-    {id:'ko9',label:'Jogo 9 R32'},{id:'ko10',label:'Jogo 10 R32'},{id:'ko11',label:'Jogo 11 R32'},{id:'ko12',label:'Jogo 12 R32'},
-    {id:'ko13',label:'Jogo 13 R32'},{id:'ko14',label:'Jogo 14 R32'},{id:'ko15',label:'Jogo 15 R32'},{id:'ko16',label:'Jogo 16 R32'},
+    {id:'ko1'},{id:'ko2'},{id:'ko3'},{id:'ko4'},
+    {id:'ko5'},{id:'ko6'},{id:'ko7'},{id:'ko8'},
+    {id:'ko9'},{id:'ko10'},{id:'ko11'},{id:'ko12'},
+    {id:'ko13'},{id:'ko14'},{id:'ko15'},{id:'ko16'},
   ]},
   {id:'r16',label:'Oitavas de Final',matches:[
-    {id:'o1',label:'Oitavas 1'},{id:'o2',label:'Oitavas 2'},{id:'o3',label:'Oitavas 3'},{id:'o4',label:'Oitavas 4'},
-    {id:'o5',label:'Oitavas 5'},{id:'o6',label:'Oitavas 6'},{id:'o7',label:'Oitavas 7'},{id:'o8',label:'Oitavas 8'},
+    {id:'o1'},{id:'o2'},{id:'o3'},{id:'o4'},
+    {id:'o5'},{id:'o6'},{id:'o7'},{id:'o8'},
   ]},
-  {id:'qf',label:'Quartas de Final',matches:[
-    {id:'q1',label:'Quartas 1'},{id:'q2',label:'Quartas 2'},{id:'q3',label:'Quartas 3'},{id:'q4',label:'Quartas 4'},
-  ]},
-  {id:'sf',label:'Semifinais',matches:[{id:'s1',label:'Semifinal 1'},{id:'s2',label:'Semifinal 2'}]},
-  {id:'f',label:'Final',matches:[{id:'f1',label:'Final'}]},
+  {id:'qf',label:'Quartas de Final',matches:[{id:'q1'},{id:'q2'},{id:'q3'},{id:'q4'}]},
+  {id:'sf',label:'Semifinais',matches:[{id:'s1'},{id:'s2'}]},
+  {id:'f3',label:'Disputa de 3º Lugar',matches:[{id:'t3'}]},
+  {id:'f',label:'Final',matches:[{id:'f1'}]},
 ];
 
-// ── ESTADO ───────────────────────────────────────────────────────────
-let db={};  // base compartilhada via window.storage
+// ── ESTADO ──────────────────────────────────────────────────────
+let db={};
 let currentGroup='hoje';
 
-// ── STORAGE COMPARTILHADO ─────────────────────────────────────────
-const STORAGE_KEY='nathscore_v2';
+// ── FIREBASE REST (sem SDK) ──────────────────────────────────────
+function fbConfigured(){
+  return FIREBASE_URL && !FIREBASE_URL.includes('SEU-BANCO-AQUI');
+}
 
 async function loadDB(){
   setSyncStatus('spin','sincronizando...');
-  try{
-    const r=await window.storage.get(STORAGE_KEY,true);
-    db=r?JSON.parse(r.value):{};
-    // Preencher KNOWN como base
-    for(const[id,score] of Object.entries(KNOWN)){
-      if(!db[id]) db[id]={h:score.h,a:score.a};
-    }
-    setSyncStatus('ok','sincronizado');
-  }catch(e){
-    // fallback: só usa KNOWN
-    db={};
-    for(const[id,score] of Object.entries(KNOWN)){db[id]={h:score.h,a:score.a};}
-    setSyncStatus('err','offline');
+  // Sempre parte dos dados conhecidos como base imutável
+  const base={};
+  for(const[id,s] of Object.entries(KNOWN)) base[id]={h:s.h,a:s.a};
+
+  if(!fbConfigured()){
+    db=base;
+    setSyncStatus('err','Firebase não configurado');
+    recalc(); renderContent(currentGroup);
+    return;
   }
-  recalc();
-  renderContent(currentGroup);
+  try{
+    const res=await fetch(`${FIREBASE_URL}${DB_PATH}`);
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const remote=await res.json();
+    db=Object.assign({},base); // começa com KNOWN
+    if(remote && typeof remote==='object'){
+      for(const[k,v] of Object.entries(remote)){
+        if(!KNOWN[k]) db[k]=v; // só aceita dados remotos para jogos não-KNOWN
+      }
+    }
+    const t=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    setSyncStatus('ok','ok · '+t);
+  }catch(e){
+    db=base;
+    setSyncStatus('err','offline · dados locais');
+  }
+  recalc(); renderContent(currentGroup);
 }
 
 async function saveDB(){
+  if(!fbConfigured()) return;
   setSyncStatus('spin','salvando...');
   try{
-    await window.storage.set(STORAGE_KEY,JSON.stringify(db),true);
-    setSyncStatus('ok','salvo ✓');
-  }catch(e){setSyncStatus('err','erro ao salvar')}
+    // Envia só os dados que não são KNOWN (evita sobrescrever resultados fixos)
+    const toSave={};
+    for(const[k,v] of Object.entries(db)){
+      if(!KNOWN[k]) toSave[k]=v;
+    }
+    const res=await fetch(`${FIREBASE_URL}${DB_PATH}`,{
+      method:'PUT',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(toSave)
+    });
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const t=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    setSyncStatus('ok','salvo · '+t);
+  }catch(e){
+    setSyncStatus('err','erro ao salvar');
+  }
 }
 
-function setSyncStatus(state,txt){
-  document.getElementById('syncDot').className='dot '+state;
-  document.getElementById('syncTxt').textContent=txt;
+function setSyncStatus(s,t){
+  document.getElementById('syncDot').className='dot '+s;
+  document.getElementById('syncTxt').textContent=t;
 }
 
-// ── LÓGICA ───────────────────────────────────────────────────────────
+// ── DATA LOCAL (corrige bug de fuso UTC) ────────────────────────
+function getLocalDateStr(){
+  const d=new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+// ── LÓGICA ──────────────────────────────────────────────────────
 function getResult(id){return db[id]||null}
 
 function compare(ph,pa,oh,oa){
-  if(ph===oh&&pa===oa)return'cravou';
+  if(ph===oh&&pa===oa) return 'cravou';
   const pw=ph>pa?'H':ph<pa?'A':'D';
   const rw=oh>oa?'H':oh<oa?'A':'D';
   return pw===rw?'parcial':'errou';
@@ -353,284 +434,233 @@ function compare(ph,pa,oh,oa){
 
 function recalc(){
   let cr=0,pa=0,er=0;
-  for(const grp of Object.values(NATH)){
+  for(const grp of Object.values(NATH))
     for(const m of grp){
       const off=getResult(m.id);
-      if(!off)continue;
+      if(!off) continue;
       const r=compare(m.ph,m.pa,off.h,off.a);
-      if(r==='cravou')cr++;else if(r==='parcial')pa++;else er++;
+      if(r==='cravou') cr++; else if(r==='parcial') pa++; else er++;
     }
-  }
   document.getElementById('sCravou').textContent=cr;
   document.getElementById('sParcial').textContent=pa;
   document.getElementById('sErrou').textContent=er;
 }
 
-// ── JOGOS DE HOJE ────────────────────────────────────────────────────
+// ── TODAY ────────────────────────────────────────────────────────
 function getTodayGames(){
-  const today=new Date().toISOString().slice(0,10);
-  const res=[];
-  for(const[id,h,a,date,hora] of SCHEDULE){
-    if(date===today){
-      // procura nas nath
+  const today=getLocalDateStr();
+  return SCHEDULE
+    .filter(([,,, date])=>date===today)
+    .map(([id,h,a,,hora])=>{
       let nathMatch=null;
       for(const grp of Object.values(NATH)){
-        nathMatch=grp.find(m=>m.id===id)||nathMatch;
+        const m=grp.find(x=>x.id===id);
+        if(m){nathMatch=m;break;}
       }
-      const off=getResult(id);
-      res.push({id,h,a,hora,off,nathMatch});
-    }
-  }
-  return res;
+      return {id,h,a,hora,off:getResult(id),nathMatch};
+    });
 }
 
-// ── RENDER TODAY ─────────────────────────────────────────────────────
 function renderTodayBanner(){
   const sec=document.getElementById('todaySection');
   const games=getTodayGames();
   if(!games.length){sec.innerHTML='';return;}
-  let html=`<div class="today-banner">
-    <div class="today-header"><span>📅 Jogos de Hoje</span></div>`;
-  games.forEach(g=>{
-    const scoreStr=g.off?`${g.off.h}–${g.off.a}`:'';
+  let html=`<div class="today-banner"><div class="today-header"><span>📅 Jogos de Hoje</span></div>`;
+  for(const g of games){
+    const s=g.off?`${g.off.h}–${g.off.a}`:'';
     html+=`<div class="today-match">
       <span class="today-time">${g.hora}</span>
       <span class="today-teams">${F[g.h]||''} ${g.h} × ${g.a} ${F[g.a]||''}</span>
-      <span class="today-score">${scoreStr}</span>
+      <span class="today-score">${s}</span>
     </div>`;
-  });
-  html+='</div>';
-  sec.innerHTML=html;
+  }
+  sec.innerHTML=html+'</div>';
 }
 
-// ── RENDER CONTENT ──────────────────────────────────────────────────
+// ── CARD ─────────────────────────────────────────────────────────
+function matchCard(m){
+  const off=getResult(m.id);
+  const isKnown=!!KNOWN[m.id];
+  let rc='',badge='',offHtml='';
+  if(off){
+    const r=compare(m.ph,m.pa,off.h,off.a);
+    rc=r;
+    const lbl={cravou:'🎯 Cravou!',parcial:'~ Parcial',errou:'✗ Errou'};
+    badge=`<span class="badge ${r}">${lbl[r]}</span>`;
+    offHtml=`<span class="official-label">oficial: ${off.h}×${off.a}</span>`;
+  } else {
+    badge=`<span class="badge pendente">Aguardando</span>`;
+  }
+  const inp=(!off&&!isKnown)?`<div class="input-row">
+    <label>Resultado oficial:</label>
+    <div class="sinputs">
+      <input type="number" min="0" max="30" id="h_${m.id}" placeholder="—">
+      <span>×</span>
+      <input type="number" min="0" max="30" id="a_${m.id}" placeholder="—">
+    </div>
+    <button class="save-btn" onclick="doSave('${m.id}')">Salvar</button>
+  </div>`:'';
+  return `<div class="match-card ${rc}">
+    <div class="match-top">
+      <div class="team"><span class="flag">${F[m.h]||'🏳'}</span><span class="tcode">${m.h}</span></div>
+      <div class="score-block">
+        <div class="pred-row"><span class="pscore">${m.ph}</span><span class="sep">×</span><span class="pscore">${m.pa}</span></div>
+        <div class="pred-label">palpite</div>
+        <div>${badge}</div>
+        <div class="official-row">${offHtml}</div>
+      </div>
+      <div class="team"><span class="flag">${F[m.a]||'🏳'}</span><span class="tcode">${m.a}</span></div>
+    </div>${inp}</div>`;
+}
+
+// ── RENDERS ──────────────────────────────────────────────────────
 function renderContent(grp){
   currentGroup=grp;
   renderTodayBanner();
   const c=document.getElementById('content');
+  if(grp==='hoje') return renderHoje(c);
+  if(grp==='bonus') return renderBonus(c);
+  if(grp==='mata') return renderMata(c);
+  renderGroup(grp,c);
+}
 
-  if(grp==='hoje'){
-    renderHoje(c);return;
-  }
-  if(grp==='bonus'){renderBonus(c);return;}
-  if(grp==='mata'){renderMata(c);return;}
-
-  // grupo normal
+function renderGroup(grp,c){
   const matches=NATH[grp];
   if(!matches){c.innerHTML='';return;}
   let html=`<div class="group-hdr"><span class="group-hdr-label">Grupo ${grp} — palpites da Nath</span></div>`;
-  matches.forEach(m=>{
-    const off=getResult(m.id);
-    let resultClass='',badge='',officialHtml='';
-    if(off){
-      const r=compare(m.ph,m.pa,off.h,off.a);
-      resultClass=r;
-      const lbl={cravou:'🎯 Cravou!',parcial:'~ Parcial',errou:'✗ Errou'};
-      badge=`<span class="badge ${r}">${lbl[r]}</span>`;
-      officialHtml=`<span class="official-label">oficial: ${off.h}×${off.a}</span>`;
-    }else{
-      badge=`<span class="badge pendente">Aguardando</span>`;
-    }
-    const showInput=!off;
-    html+=`<div class="match-card ${resultClass}">
-      <div class="match-top">
-        <div class="team"><span class="flag">${F[m.h]||'🏳'}</span><span class="tcode">${m.h}</span></div>
-        <div class="score-block">
-          <div class="pred-row"><span class="pscore">${m.ph}</span><span class="sep">×</span><span class="pscore">${m.pa}</span></div>
-          <div class="pred-label">palpite</div>
-          <div>${badge}</div>
-          <div class="official-row">${officialHtml}</div>
-        </div>
-        <div class="team"><span class="flag">${F[m.a]||'🏳'}</span><span class="tcode">${m.a}</span></div>
-      </div>
-      ${showInput?`<div class="input-row">
-        <label>Resultado oficial:</label>
-        <div class="sinputs">
-          <input type="number" min="0" max="30" id="h_${m.id}" placeholder="—">
-          <span>×</span>
-          <input type="number" min="0" max="30" id="a_${m.id}" placeholder="—">
-        </div>
-        <button class="save-btn" onclick="doSave('${m.id}')">Salvar</button>
-      </div>`:''}
-    </div>`;
-  });
+  for(const m of matches) html+=matchCard(m);
   c.innerHTML=html;
 }
 
 function renderHoje(c){
   const games=getTodayGames();
   if(!games.length){
-    c.innerHTML=`<div class="loading-state">Sem jogos hoje 🌙</div>`;
+    c.innerHTML=`<div class="loading-state">Sem jogos hoje 🌙<br><br><small style="color:var(--text3)">Veja os grupos nas abas acima</small></div>`;
     return;
   }
   let html=`<div class="group-hdr"><span class="group-hdr-label">Jogos de hoje</span></div>`;
-  games.forEach(g=>{
-    const m=g.nathMatch;
-    if(!m){return;}
-    const off=g.off;
-    let resultClass='',badge='',officialHtml='';
-    if(off){
-      const r=compare(m.ph,m.pa,off.h,off.a);
-      resultClass=r;
-      const lbl={cravou:'🎯 Cravou!',parcial:'~ Parcial',errou:'✗ Errou'};
-      badge=`<span class="badge ${r}">${lbl[r]}</span>`;
-      officialHtml=`<span class="official-label">oficial: ${off.h}×${off.a}</span>`;
-    }else{
-      badge=`<span class="badge pendente">${g.hora} — Aguardando</span>`;
-    }
-    const showInput=!off;
-    html+=`<div class="match-card ${resultClass}">
-      <div class="match-top">
-        <div class="team"><span class="flag">${F[m.h]||'🏳'}</span><span class="tcode">${m.h}</span></div>
-        <div class="score-block">
-          <div class="pred-row"><span class="pscore">${m.ph}</span><span class="sep">×</span><span class="pscore">${m.pa}</span></div>
-          <div class="pred-label">palpite</div>
-          <div>${badge}</div>
-          <div class="official-row">${officialHtml}</div>
-        </div>
-        <div class="team"><span class="flag">${F[m.a]||'🏳'}</span><span class="tcode">${m.a}</span></div>
-      </div>
-      ${showInput?`<div class="input-row">
-        <label>Resultado oficial:</label>
-        <div class="sinputs">
-          <input type="number" min="0" max="30" id="h_${m.id}" placeholder="—">
-          <span>×</span>
-          <input type="number" min="0" max="30" id="a_${m.id}" placeholder="—">
-        </div>
-        <button class="save-btn" onclick="doSave('${m.id}')">Salvar</button>
-      </div>`:''}
-    </div>`;
-  });
+  for(const g of games) if(g.nathMatch) html+=matchCard(g.nathMatch);
   c.innerHTML=html;
 }
 
 function renderBonus(c){
-  const bonusDef=[
-    {id:'artilheiro',label:'⚽ Artilheiro',value:'Kylian Mbappé'},
-    {id:'garcom',label:'🎯 Garçom',value:'Lamine Yamal'},
-    {id:'mvp',label:'⭐ MVP',value:'Endrick'},
+  const bd=[
+    {id:'artilheiro',icon:'⚽',label:'Artilheiro',value:'Kylian Mbappé'},
+    {id:'garcom',icon:'🎯',label:'Garçom',value:'Lamine Yamal'},
+    {id:'mvp',icon:'⭐',label:'MVP',value:'Endrick'},
   ];
-  const podiumDef=[
-    {id:'campeao',label:'🥇 Campeão',flag:'🇧🇷',team:'BRA'},
-    {id:'vice',label:'🥈 Vice',flag:'🇫🇷',team:'FRA'},
-    {id:'terceiro',label:'🥉 3º lugar',flag:'🇵🇹',team:'POR'},
+  const pd=[
+    {id:'campeao',medal:'🥇',label:'Campeão',flag:'🇧🇷',team:'BRA'},
+    {id:'vice',medal:'🥈',label:'Vice',flag:'🇫🇷',team:'FRA'},
+    {id:'terceiro',medal:'🥉',label:'3º lugar',flag:'🇵🇹',team:'POR'},
   ];
-
-  let html=`<div class="bonus-wrap">
-    <div class="bonus-card">
-      <div class="bonus-title">Palpites Especiais</div>`;
-  bonusDef.forEach(b=>{
-    const val=db['bonus_'+b.id];
-    const hitClass=val==='hit'?'hit':val==='miss'?'miss':'';
-    const hitLabel=val==='hit'?'✓ Acertou':val==='miss'?'✗ Errou':'Pendente';
+  let html=`<div class="bonus-wrap"><div class="bonus-card"><div class="bonus-title">Palpites Especiais</div>`;
+  for(const b of bd){
+    const v=db['bonus_'+b.id];
     html+=`<div class="bonus-item">
-      <span class="bl">${b.label}: <strong style="color:var(--text)">${b.value}</strong></span>
-      <div class="bonus-result">
-        <span class="bonus-badge ${hitClass}" onclick="toggleBonus('${b.id}','hit')" title="Acertou">✓</span>
-        <span class="bonus-badge ${val==='miss'?'miss':''}" onclick="toggleBonus('${b.id}','miss')" title="Errou">✗</span>
+      <span class="bl">${b.icon} <strong>${b.label}:</strong> ${b.value}</span>
+      <div class="bonus-btns">
+        <span class="bonus-badge ${v==='hit'?'hit':''}" onclick="toggleBonus('${b.id}','hit')">✓ Acertou</span>
+        <span class="bonus-badge ${v==='miss'?'miss':''}" onclick="toggleBonus('${b.id}','miss')">✗ Errou</span>
       </div>
     </div>`;
-  });
-  html+=`</div><div class="bonus-card"><div class="bonus-title">Pódio</div><div class="podium-grid">`;
-  podiumDef.forEach(p=>{
-    const val=db['bonus_'+p.id];
-    const hitClass=val==='hit'?'hit':val==='miss'?'miss':'';
+  }
+  html+=`</div><div class="bonus-card"><div class="bonus-title">Pódio Final</div><div class="podium-grid">`;
+  for(const p of pd){
+    const v=db['bonus_'+p.id];
     html+=`<div class="podium-item">
-      <div class="podium-place">${p.label}</div>
+      <div class="podium-place">${p.medal} ${p.label}</div>
       <div class="podium-flag">${p.flag}</div>
       <div class="podium-team">${p.team}</div>
       <div class="podium-result">
-        <span class="bonus-badge ${hitClass}" onclick="toggleBonus('${p.id}','hit')" style="margin-right:4px">✓</span>
-        <span class="bonus-badge ${val==='miss'?'miss':''}" onclick="toggleBonus('${p.id}','miss')">✗</span>
+        <span class="bonus-badge ${v==='hit'?'hit':''}" onclick="toggleBonus('${p.id}','hit')">✓</span>
+        <span class="bonus-badge ${v==='miss'?'miss':''}" onclick="toggleBonus('${p.id}','miss')">✗</span>
       </div>
     </div>`;
-  });
+  }
   html+=`</div></div></div>`;
   c.innerHTML=html;
 }
 
 function renderMata(c){
   let html=`<div class="ko-wrap">`;
-  KO_PHASES.forEach(phase=>{
+  for(const phase of KO_PHASES){
     html+=`<div class="ko-phase"><div class="ko-phase-title">${phase.label}</div>`;
-    phase.matches.forEach(m=>{
-      const saved=db['ko_'+m.id]||{};
-      const hn=saved.h||'';const an=saved.a||'';
-      const hf=saved.hf||'';const af=saved.af||'';
-      const hs=saved.hs!==undefined?saved.hs:'';
-      const as_=saved.as_!==undefined?saved.as_:'';
+    for(const m of phase.matches){
+      const s=db['ko_'+m.id]||{};
+      const hf=F[s.h]||'';const af=F[s.a]||'';
+      const scoreStr=(s.hs!==undefined&&s.as!==undefined)?`${s.hs}–${s.as}`:'';
       html+=`<div class="ko-card">
         <div class="ko-match">
           <div class="ko-team">
-            <span class="ko-flag">${F[hn]||''}</span>
-            <span class="${hn?'ko-name':'ko-tbd'}">${hn||'A definir'}</span>
+            <span class="ko-flag">${hf}</span>
+            <span class="${s.h?'ko-name':'ko-tbd'}">${s.h||'A definir'}</span>
           </div>
-          <div class="ko-score">${hs!==''&&as_!==''?`${hs}–${as_}`:hf&&af?`${hf}–${af}`:''}</div>
+          <div class="ko-score">${scoreStr}</div>
           <div class="ko-team" style="justify-content:flex-end">
-            <span class="${an?'ko-name':'ko-tbd'}">${an||'A definir'}</span>
-            <span class="ko-flag">${F[an]||''}</span>
+            <span class="${s.a?'ko-name':'ko-tbd'}">${s.a||'A definir'}</span>
+            <span class="ko-flag">${af}</span>
           </div>
         </div>
         <div class="ko-input-row">
-          <label style="font-size:9px;color:var(--text3)">${m.label}</label>
-          <div style="display:flex;gap:4px;align-items:center;flex-wrap:wrap">
-            <input style="width:36px;height:24px;border:1px solid var(--border2);border-radius:4px;text-align:center;font-size:11px;background:var(--surface2);color:var(--text)" placeholder="Casa" id="ko_h_${m.id}" value="${hn}">
-            <span style="font-size:10px;color:var(--text3)">vs</span>
-            <input style="width:36px;height:24px;border:1px solid var(--border2);border-radius:4px;text-align:center;font-size:11px;background:var(--surface2);color:var(--text)" placeholder="Fora" id="ko_a_${m.id}" value="${an}">
-            <input style="width:28px;height:24px;border:1px solid var(--border2);border-radius:4px;text-align:center;font-size:11px;background:var(--surface2);color:var(--text)" placeholder="G" id="ko_hs_${m.id}" value="${hs}">
-            <span style="font-size:10px;color:var(--text3)">×</span>
-            <input style="width:28px;height:24px;border:1px solid var(--border2);border-radius:4px;text-align:center;font-size:11px;background:var(--surface2);color:var(--text)" placeholder="G" id="ko_as_${m.id}" value="${as_}">
-            <button class="save-btn" onclick="doSaveKO('${m.id}')">Salvar</button>
-          </div>
+          <input class="ki" placeholder="Time casa" id="ko_h_${m.id}" value="${s.h||''}">
+          <input class="ki" placeholder="Time fora" id="ko_a_${m.id}" value="${s.a||''}">
+          <input class="ki score" type="number" min="0" placeholder="G" id="ko_hs_${m.id}" value="${s.hs!==undefined?s.hs:''}">
+          <span style="font-size:10px;color:var(--text3)">×</span>
+          <input class="ki score" type="number" min="0" placeholder="G" id="ko_as_${m.id}" value="${s.as!==undefined?s.as:''}">
+          <button class="save-btn" onclick="doSaveKO('${m.id}')">Salvar</button>
         </div>
       </div>`;
-    });
+    }
     html+=`</div>`;
-  });
+  }
   html+=`</div>`;
   c.innerHTML=html;
 }
 
-// ── AÇÕES ────────────────────────────────────────────────────────────
+// ── AÇÕES ────────────────────────────────────────────────────────
 async function doSave(id){
+  if(KNOWN[id]) return; // imutável
   const h=parseInt(document.getElementById('h_'+id)?.value);
   const a=parseInt(document.getElementById('a_'+id)?.value);
-  if(isNaN(h)||isNaN(a))return;
+  if(isNaN(h)||isNaN(a)) return;
   db[id]={h,a};
   await saveDB();
-  recalc();
-  renderContent(currentGroup);
+  recalc(); renderContent(currentGroup);
 }
 
 async function doSaveKO(id){
-  const hn=document.getElementById('ko_h_'+id)?.value.trim().toUpperCase();
-  const an=document.getElementById('ko_a_'+id)?.value.trim().toUpperCase();
+  const h=(document.getElementById('ko_h_'+id)?.value||'').trim().toUpperCase();
+  const a=(document.getElementById('ko_a_'+id)?.value||'').trim().toUpperCase();
   const hs=document.getElementById('ko_hs_'+id)?.value;
   const as_=document.getElementById('ko_as_'+id)?.value;
-  db['ko_'+id]={h:hn,a:an,hs:hs!==''?parseInt(hs):undefined,as_:as_!==''?parseInt(as_):undefined};
-  await saveDB();
-  renderContent(currentGroup);
+  db['ko_'+id]={
+    h,a,
+    hs:hs!==''?parseInt(hs):undefined,
+    as:as_!==''?parseInt(as_):undefined
+  };
+  await saveDB(); renderContent(currentGroup);
 }
 
 async function toggleBonus(id,val){
   const key='bonus_'+id;
   db[key]=db[key]===val?undefined:val;
-  await saveDB();
-  renderContent(currentGroup);
+  await saveDB(); renderContent(currentGroup);
 }
 
-// ── TABS ─────────────────────────────────────────────────────────────
+// ── TABS ─────────────────────────────────────────────────────────
 document.getElementById('tabs').addEventListener('click',e=>{
   const btn=e.target.closest('.tab');
-  if(!btn)return;
+  if(!btn) return;
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
   renderContent(btn.dataset.g);
 });
 
-// ── INIT ──────────────────────────────────────────────────────────────
+// ── INIT ─────────────────────────────────────────────────────────
+if(fbConfigured()) document.getElementById('setupBanner').style.display='none';
 loadDB();
-setInterval(()=>{loadDB();},120000);
+setInterval(loadDB,90000);
 </script>
 </body>
 </html>
