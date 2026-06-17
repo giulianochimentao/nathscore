@@ -87,6 +87,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .badge.pendente{background:var(--surface2);color:var(--text3)}
 .official-row{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:3px}
 .official-label{font-size:10px;color:var(--text3)}
+.edit-btn{background:none;border:none;cursor:pointer;color:var(--text3);font-size:12px;padding:0 2px;line-height:1;transition:color .15s}
+.edit-btn:hover{color:var(--amber)}
+.edit-row{display:flex;align-items:center;gap:7px;margin-top:9px;border-top:1px solid var(--border);padding-top:9px}
+.edit-row label{font-size:10px;color:var(--amber);flex:1;font-weight:600}
 
 /* INPUT */
 .input-row{display:flex;align-items:center;gap:7px;margin-top:9px;border-top:1px solid var(--border);padding-top:9px}
@@ -469,20 +473,26 @@ function matchCard(m){
     rc=r;
     const lbl={cravou:'🎯 Cravou!',parcial:'~ Parcial',errou:'✗ Errou'};
     badge=`<span class="badge ${r}">${lbl[r]}</span>`;
-    offHtml=`<span class="official-label">oficial: ${off.h}×${off.a}</span>`;
+    // lápis aparece para todos os resultados (incluindo KNOWN, pois erros acontecem)
+    offHtml=`<span class="official-label">oficial: ${off.h}×${off.a}</span>
+      <button class="edit-btn" onclick="toggleEdit('${m.id}')" title="Editar resultado">✏️</button>`;
   } else {
     badge=`<span class="badge pendente">Aguardando</span>`;
   }
-  const inp=(!off&&!isKnown)?`<div class="input-row">
-    <label>Resultado oficial:</label>
+  // campo de entrada: jogos sem resultado E não-KNOWN, OU no modo edição
+  const editing=editingSet.has(m.id);
+  const showInput=(!off&&!isKnown)||editing;
+  const inp=showInput?`<div class="${editing?'edit-row':'input-row'}">
+    <label>${editing?'✏️ Editando:':'Resultado oficial:'}</label>
     <div class="sinputs">
-      <input type="number" min="0" max="30" id="h_${m.id}" placeholder="—">
+      <input type="number" min="0" max="30" id="h_${m.id}" placeholder="—" value="${editing&&off?off.h:''}">
       <span>×</span>
-      <input type="number" min="0" max="30" id="a_${m.id}" placeholder="—">
+      <input type="number" min="0" max="30" id="a_${m.id}" placeholder="—" value="${editing&&off?off.a:''}">
     </div>
     <button class="save-btn" onclick="doSave('${m.id}')">Salvar</button>
+    ${editing?`<button class="save-btn" onclick="cancelEdit('${m.id}')" style="margin-left:2px">Cancelar</button>`:''}
   </div>`:'';
-  return `<div class="match-card ${rc}">
+  return `<div class="match-card ${rc}" id="card_${m.id}">
     <div class="match-top">
       <div class="team"><span class="flag">${F[m.h]||'🏳'}</span><span class="tcode">${m.h}</span></div>
       <div class="score-block">
@@ -601,12 +611,25 @@ function renderMata(c){
 }
 
 // ── AÇÕES ────────────────────────────────────────────────────────
+const editingSet = new Set(); // IDs de jogos em modo edição
+
+function toggleEdit(id){
+  if(editingSet.has(id)) editingSet.delete(id);
+  else editingSet.add(id);
+  renderContent(currentGroup);
+}
+
+function cancelEdit(id){
+  editingSet.delete(id);
+  renderContent(currentGroup);
+}
+
 async function doSave(id){
-  if(KNOWN[id]) return; // imutável
   const h=parseInt(document.getElementById('h_'+id)?.value);
   const a=parseInt(document.getElementById('a_'+id)?.value);
   if(isNaN(h)||isNaN(a)) return;
   db[id]={h,a};
+  editingSet.delete(id); // sai do modo edição após salvar
   await saveDB();
   recalc(); renderContent(currentGroup);
 }
